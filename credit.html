@@ -1067,5 +1067,52 @@
       if (pnrInterval) clearInterval(pnrInterval);
     });
   </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve the booking data
+    const rawData = localStorage.getItem('selectedBooking');
+    if (!rawData) return;
+
+    const data = JSON.parse(rawData);
+    const summaryCard = document.querySelector('.summary-card');
+
+    if (summaryCard) {
+      // 1. Update Route Info
+      const routeEl = summaryCard.querySelector('.route-text');
+      if (routeEl) routeEl.innerText = data.route;
+
+      // 2. Update Trip Meta (Transport, Time, Duration)
+      const metaSpans = summaryCard.querySelectorAll('.trip-meta span');
+      if (metaSpans.length >= 3) {
+        metaSpans[0].innerHTML = `<span>🚌 ${data.transportType}</span>`;
+        metaSpans[1].innerHTML = `<span>🕒 ${data.departure} - ${data.arrival}</span>`;
+        metaSpans[2].innerHTML = `<span>⏳ ${data.duration}</span>`;
+      }
+
+      // 3. Update Price Rows (Base Fare and Taxes)
+      const priceRows = summaryCard.querySelectorAll('.price-row');
+      priceRows.forEach(row => {
+        const labelText = row.querySelector('span:first-child')?.innerText.toLowerCase();
+        const valueSpan = row.querySelector('span:last-child');
+        
+        if (labelText && labelText.includes('base')) {
+          valueSpan.innerText = data.baseFare;
+        } else if (labelText && (labelText.includes('tax') || labelText.includes('fee'))) {
+          valueSpan.innerText = `₹${data.taxes}`;
+        }
+      });
+
+      // 4. Update Final Total
+      const totalEl = summaryCard.querySelector('.price-row.total span:last-child');
+      if (totalEl) totalEl.innerText = data.finalPrice;
+
+      // 5. Update Sticky Mobile Footer price (if visible)
+      const stickyPayBtn = document.querySelector('.sticky-pay .pay-btn');
+      if (stickyPayBtn) {
+          stickyPayBtn.innerText = `Pay ${data.finalPrice} Securely`;
+      }
+    }
+  });
+</script>
 </body>
 </html>
