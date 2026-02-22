@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,12 +9,14 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet" />
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    
+
     <style>
         /* ========== RESET & VARIABLES ========== */
         * {
@@ -245,6 +248,7 @@
                 transform: translateY(-100px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -393,8 +397,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Alert Ticker */
@@ -416,8 +425,13 @@
         }
 
         @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         /* Container */
@@ -438,9 +452,17 @@
         }
 
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .hero__inner {
@@ -964,14 +986,30 @@
             opacity: 1;
         }
 
-        .hub--flight { background: var(--brand-primary); }
-        .hub--train { background: var(--warning); }
-        .hub--bus { background: var(--success); }
-        .hub--metro { background: var(--purple); }
+        .hub--flight {
+            background: var(--brand-primary);
+        }
+
+        .hub--train {
+            background: var(--warning);
+        }
+
+        .hub--bus {
+            background: var(--success);
+        }
+
+        .hub--metro {
+            background: var(--purple);
+        }
 
         @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 currentColor; }
-            70% { box-shadow: 0 0 0 12px transparent; }
+            0% {
+                box-shadow: 0 0 0 0 currentColor;
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px transparent;
+            }
         }
 
         /* Stats Banner */
@@ -1305,9 +1343,209 @@
                 width: 95%;
                 padding: 1.5rem;
             }
-            
+
             .hero__title {
                 font-size: 2rem;
+            }
+        }
+
+        /* Feature Preview Styles */
+        .feature-preview {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-color);
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Timeline Preview */
+        .preview-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .preview-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+        }
+
+        .preview-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+        }
+
+        .preview-item.active .preview-dot {
+            background: var(--brand-primary);
+            box-shadow: 0 0 0 2px rgba(25, 93, 230, 0.2);
+        }
+
+        .preview-mode {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .preview-action {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            background: var(--brand-secondary);
+            color: var(--brand-primary);
+        }
+
+        .preview-action.waitlist {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--warning);
+        }
+
+        /* Smart Switch Preview */
+        .preview-switch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .switch-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.25rem 0;
+        }
+
+        .switch-time {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .switch-arrow {
+            color: var(--brand-primary);
+            font-size: 1rem;
+        }
+
+        /* Probability Preview */
+        .preview-probability {
+            padding: 0.25rem 0;
+        }
+
+        .preview-prob-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .preview-prob-text span:first-child {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .preview-prob-text span:last-child {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+
+        .preview-prob-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .preview-prob-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--brand-primary), var(--purple));
+            border-radius: 2px;
+        }
+
+        /* GPS Preview */
+        .preview-gps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .gps-status {
+            font-size: 0.75rem;
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+
+        .gps-next {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Actions Preview */
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .preview-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.6rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-muted);
+            cursor: default;
+        }
+
+        /* Mini Timeline Preview */
+        .preview-timeline-mini {
+            position: relative;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mini-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+            left: 50%;
+        }
+
+        .mini-dots {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .mini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            margin-left: -3px;
+        }
+
+        .mini-dot.completed {
+            background: var(--success);
+        }
+
+        .mini-dot.current {
+            background: var(--brand-primary);
+            box-shadow: 0 0 0 2px rgba(25, 93, 230, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .preview-actions {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -1328,7 +1566,7 @@
                     <button id="logoutBtn" class="logout-btn">Logout</button>
                 </div>
                 <button id="showAuthBtn" class="auth-btn">Sign In / Sign Up</button>
-                
+
                 <!-- Theme Toggle -->
                 <div class="theme-toggle">
                     <button class="theme-btn active" data-theme="light">☀️ Light</button>
@@ -1342,7 +1580,7 @@
     <div id="authPopup" class="popup">
         <div class="popup-content">
             <span class="close-btn" id="closePopup">&times;</span>
-            
+
             <div class="toggle-container">
                 <button class="toggle-btn active" id="showSignIn">Sign In</button>
                 <button class="toggle-btn" id="showSignUp">Sign Up</button>
@@ -1400,7 +1638,8 @@
                 <div class="hero__content">
                     <span class="hero__tagline">GOCLEVER 2.0</span>
                     <h1 class="hero__title">Make the smartest travel decision — every time.</h1>
-                    <p class="hero__desc">Compare trains, buses, flights, and metro with cost analysis, confirmation prediction, and comfort scoring — all in one place.</p>
+                    <p class="hero__desc">Compare trains, buses, flights, and metro with cost analysis, confirmation
+                        prediction, and comfort scoring — all in one place.</p>
 
                     <div class="hero__actions">
                         <button class="btn btn--primary" id="openPlanner">Plan My Trip</button>
@@ -1467,20 +1706,130 @@
                 <p>Data-driven insights for the modern Indian traveler across trains, buses, flights, and metro.</p>
             </div>
             <div class="features__grid">
+                <!-- Trip Pulse Dashboard Feature -->
                 <div class="feature-card">
-                    <div class="feature-card__icon">₹</div>
-                    <h3 class="feature-card__title">Cost Analysis</h3>
-                    <p class="feature-card__desc">Compare real-time prices across all modes including hidden convenience fees and taxes.</p>
+                    <div class="feature-card__icon">📊</div>
+                    <h3 class="feature-card__title">Trip Pulse Dashboard</h3>
+                    <p class="feature-card__desc">A live vertical timeline that updates based on your journey. Metro QR
+                        pops up 2h before flight, swaps to boarding pass after metro, shows hotel navigation on landing,
+                        and displays waitlist probability for return trains.</p>
+                    <div class="feature-preview">
+                        <div class="preview-timeline">
+                            <div class="preview-item active">
+                                <span class="preview-dot"></span>
+                                <span class="preview-mode">🚇 Metro</span>
+                                <span class="preview-action">QR Ready</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-dot"></span>
+                                <span class="preview-mode">✈️ Flight</span>
+                                <span class="preview-action">Boarding Pass</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-dot"></span>
+                                <span class="preview-mode">🏨 Hotel</span>
+                                <span class="preview-action">Navigate</span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-dot"></span>
+                                <span class="preview-mode">🚆 Train</span>
+                                <span class="preview-action waitlist">WL12 · 90%</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Smart QR Switching Feature -->
+                <div class="feature-card">
+                    <div class="feature-card__icon">🎫</div>
+                    <h3 class="feature-card__title">Smart QR Switching</h3>
+                    <p class="feature-card__desc">No more searching emails. Metro QR automatically appears 2h before
+                        flight. Once GPS detects metro ride end, it instantly swaps to your flight boarding pass. Upon
+                        landing, hotel check-in code and navigation appear.</p>
+                    <div class="feature-preview">
+                        <div class="preview-switch">
+                            <div class="switch-item">
+                                <span>🚇 Metro QR</span>
+                                <span class="switch-time">2h before</span>
+                            </div>
+                            <div class="switch-arrow">↓</div>
+                            <div class="switch-item">
+                                <span>✈️ Boarding Pass</span>
+                                <span class="switch-time">GPS triggered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Waitlist Probability -->
                 <div class="feature-card">
                     <div class="feature-card__icon">📈</div>
-                    <h3 class="feature-card__title">Confirmation Prediction</h3>
-                    <p class="feature-card__desc">AI-powered probability scores for waitlisted train tickets based on historical patterns.</p>
+                    <h3 class="feature-card__title">Live Waitlist Probability</h3>
+                    <p class="feature-card__desc">For waitlisted tickets, see a real-time probability meter (e.g., "WL
+                        12 — 90% chance") based on historical patterns, current cancellations, and quota availability.
+                    </p>
+                    <div class="feature-preview">
+                        <div class="preview-probability">
+                            <div class="preview-prob-text">
+                                <span>WL 12</span>
+                                <span>90% chance</span>
+                            </div>
+                            <div class="preview-prob-bar">
+                                <div class="preview-prob-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- GPS-Aware Journey Updates -->
                 <div class="feature-card">
-                    <div class="feature-card__icon">⭐</div>
-                    <h3 class="feature-card__title">Comfort Scoring</h3>
-                    <p class="feature-card__desc">Proprietary ratings based on seat availability, on-time performance, and vehicle amenities.</p>
+                    <div class="feature-card__icon">📍</div>
+                    <h3 class="feature-card__title">GPS-Aware Journey Updates</h3>
+                    <p class="feature-card__desc">The dashboard knows where you are. Metro stage auto-completes when you
+                        exit, flight mode activates at the airport, and return journey appears with real-time updates as
+                        you travel.</p>
+                    <div class="feature-preview">
+                        <div class="preview-gps">
+                            <span class="gps-status">📍 Current: Airport</span>
+                            <span class="gps-next">Next: Flight Boarding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage-Based Smart Actions -->
+                <div class="feature-card">
+                    <div class="feature-card__icon">⚡</div>
+                    <h3 class="feature-card__title">Stage-Based Smart Actions</h3>
+                    <p class="feature-card__desc">Each journey stage has contextual buttons: "Show QR" for metro/flight,
+                        "Navigate to Hotel" with Google Maps integration, "Check-in Code" for hotels, and live updates
+                        for return journey.</p>
+                    <div class="feature-preview">
+                        <div class="preview-actions">
+                            <button class="preview-btn" disabled>🚇 Show QR</button>
+                            <button class="preview-btn" disabled>📍 Navigate</button>
+                            <button class="preview-btn" disabled>🔑 Check-in</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Journey Timeline -->
+                <div class="feature-card">
+                    <div class="feature-card__icon">⏳</div>
+                    <h3 class="feature-card__title">Visual Journey Timeline</h3>
+                    <p class="feature-card__desc">A central vertical pulse line shows your journey stages. Completed
+                        stages turn green and move up, current stage highlights with live buttons, and upcoming stages
+                        show prep time.</p>
+                    <div class="feature-preview">
+                        <div class="preview-timeline-mini">
+                            <div class="mini-line"></div>
+                            <div class="mini-dots">
+                                <div class="mini-dot completed"></div>
+                                <div class="mini-dot current"></div>
+                                <div class="mini-dot"></div>
+                                <div class="mini-dot"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1501,7 +1850,8 @@
                         <button class="map-btn" data-map="metro">Metro</button>
                     </div>
                     <div class="map-layer" id="map-layer">
-                        <img alt="Transport Network Map" class="map-image" id="map-image" src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200" />
+                        <img alt="Transport Network Map" class="map-image" id="map-image"
+                            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200" />
                         <div id="map-hubs"></div>
                     </div>
                 </div>
@@ -1526,7 +1876,8 @@
                         <p class="stat-item__text">average waitlist-to-confirmation prediction accuracy</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-item__number"><span class="counter" data-target="99.97" data-decimals="2">0</span>%</div>
+                        <div class="stat-item__number"><span class="counter" data-target="99.97"
+                                data-decimals="2">0</span>%</div>
                         <p class="stat-item__text">real-time uptime for transport data synchronization</p>
                     </div>
                     <div class="stat-item">
@@ -1539,30 +1890,38 @@
 
         <!-- FAQ Accordion -->
         <div class="container">
-            <h2 style="font-size:2rem; font-weight:800; text-align:center; margin: 3rem 0; color: var(--text-primary);">Frequently Asked Questions</h2>
+            <h2 style="font-size:2rem; font-weight:800; text-align:center; margin: 3rem 0; color: var(--text-primary);">
+                Frequently Asked Questions</h2>
             <div class="faq-list" id="faqList">
                 <div class="faq-item open">
-                    <button class="faq-question">How accurate is confirmation prediction? <span class="chevron">▼</span></button>
-                    <div class="faq-answer">We use 5 years of IRCTC data with 89% average accuracy. For waitlisted tickets, we factor in quota, class, and historical trends.</div>
+                    <button class="faq-question">How accurate is confirmation prediction? <span
+                            class="chevron">▼</span></button>
+                    <div class="faq-answer">We use 5 years of IRCTC data with 89% average accuracy. For waitlisted
+                        tickets, we factor in quota, class, and historical trends.</div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Does GOCLEVER show live train status? <span class="chevron">▼</span></button>
-                    <div class="faq-answer">Yes, real-time running status is integrated via NTES. Bus and flight tracking are also live.</div>
+                    <button class="faq-question">Does GOCLEVER show live train status? <span
+                            class="chevron">▼</span></button>
+                    <div class="faq-answer">Yes, real-time running status is integrated via NTES. Bus and flight
+                        tracking are also live.</div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question">Can I book directly? <span class="chevron">▼</span></button>
-                    <div class="faq-answer">Currently we provide smart comparisons; booking redirects to IRCTC, MakeMyTrip, or RedBus with best fare.</div>
+                    <div class="faq-answer">Currently we provide smart comparisons; booking redirects to IRCTC,
+                        MakeMyTrip, or RedBus with best fare.</div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question">What is comfort score? <span class="chevron">▼</span></button>
-                    <div class="faq-answer">A proprietary metric combining seat width, on-time performance, cleanliness, and user reviews.</div>
+                    <div class="faq-answer">A proprietary metric combining seat width, on-time performance, cleanliness,
+                        and user reviews.</div>
                 </div>
             </div>
         </div>
 
         <!-- Testimonials Carousel -->
         <div class="testimonials container">
-            <h2 style="font-size:2rem; font-weight:800; margin-bottom:1rem; color: var(--text-primary);">💬 Travelers love us</h2>
+            <h2 style="font-size:2rem; font-weight:800; margin-bottom:1rem; color: var(--text-primary);">💬 Travelers
+                love us</h2>
             <div class="carousel" id="carousel">
                 <div class="testimonial-card">
                     <div class="testimonial-avatar">RJ</div>
@@ -1605,9 +1964,12 @@
         <section class="cta container">
             <div class="cta__box">
                 <h2 class="cta__title">Travel smarter. Decide with certainty.</h2>
-                <p class="cta__desc">GOCLEVER analyzes real-time Indian transport data to help you choose the fastest, safest, and most reliable route — every time.</p>
-                <button class="cta__btn" onclick="window.location.href='./triplaner.html';" >Start Planning Smarter →</button>
-                <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: rgba(255,255,255,0.6);">
+                <p class="cta__desc">GOCLEVER analyzes real-time Indian transport data to help you choose the fastest,
+                    safest, and most reliable route — every time.</p>
+                <button class="cta__btn" onclick="window.location.href='./triplaner.html';">Start Planning Smarter
+                    →</button>
+                <div
+                    style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: rgba(255,255,255,0.6);">
                     <span>Real-time Data</span> • <span>Predictive Accuracy</span> • <span>Secure Integration</span>
                 </div>
             </div>
@@ -1669,13 +2031,13 @@
     <script type="module">
         // ========== FIREBASE CONFIGURATION ==========
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
             signOut,
             updateProfile,
-            onAuthStateChanged 
+            onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -1929,14 +2291,14 @@
         function updateRouteCards(from, to) {
             const container = document.getElementById('routeCards');
             if (!container) return;
-            
+
             const routes = [
                 { mode: 'train', title: `🚆 ${from} → ${to} Express`, price: '₹1,450', duration: '16h', conf: '74%' },
                 { mode: 'flight', title: `✈️ ${from} to ${to}`, price: '₹4,100', duration: '2.5h', conf: '96%' },
                 { mode: 'bus', title: `🚌 ${from} - ${to} Sleeper`, price: '₹1,150', duration: '22h', conf: '98%' },
                 { mode: 'metro', title: `🚇 ${from} Metro`, price: '₹60', duration: 'local', conf: '100%' }
             ];
-            
+
             container.innerHTML = '';
             routes.forEach(r => {
                 const card = document.createElement('div');
@@ -1990,7 +2352,7 @@
         function renderHubs(network) {
             const data = mapData[network];
             if (!data || !hubsContainer) return;
-            
+
             hubsContainer.innerHTML = '';
             data.hubs.forEach(h => {
                 const hub = document.createElement('div');
@@ -2008,7 +2370,7 @@
                 btn.classList.add('active');
                 const network = btn.dataset.map;
                 if (mapLayer) mapLayer.classList.add('fading');
-                
+
                 setTimeout(() => {
                     if (mapImage) mapImage.src = mapData[network].image;
                     renderHubs(network);
@@ -2055,20 +2417,20 @@
                     const target = parseFloat(el.dataset.target);
                     const decimals = parseInt(el.dataset.decimals) || 0;
                     let start = null;
-                    
+
                     function animate(timestamp) {
                         if (!start) start = timestamp;
                         const progress = Math.min((timestamp - start) / 2000, 1);
                         const current = (progress * target).toFixed(decimals);
                         el.innerText = current;
-                        
+
                         if (progress < 1) {
                             requestAnimationFrame(animate);
                         } else {
                             el.innerText = target.toFixed(decimals);
                         }
                     }
-                    
+
                     requestAnimationFrame(animate);
                     el.classList.add('animated');
                 }
@@ -2078,5 +2440,5 @@
         counters.forEach(c => counterObserver.observe(c));
     </script>
 </body>
-</html>
 
+</html>
