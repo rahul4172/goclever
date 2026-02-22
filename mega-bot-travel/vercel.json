@@ -1,0 +1,4 @@
+{
+  "buildCommand": "echo \"const OPENROUTER_API_KEY = '$OPENROUTER_API_KEY';\" > env.js && cp index.html dist/index.html",
+  "outputDirectory": "dist"
+}
