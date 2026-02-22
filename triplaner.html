@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega-Bot AI - Travel Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        /* Import Google Font - Poppins */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        :root {
+            /* Dark mode colors */
+            --text-color: #E3E3E3;
+            --subheading-color: #828282;
+            --placeholder-color: #A6A6A6;
+            --primary-color: #121212;
+            --secondary-color: #1E1E1E;
+            --secondary-hover-color: #2D2D2D;
+            --accent-color: #4285f4;
+            --panel-border: #333;
+        }
+
+        .light_mode {
+            /* Light mode colors */
+            --text-color: #222;
+            --subheading-color: #A0A0A0;
+            --placeholder-color: #6C6C6C;
+            --primary-color: #FFF;
+            --secondary-color: #F0F4F9;
+            --secondary-hover-color: #E1E6ED;
+            --panel-border: #E0E0E0;
+        }
+
+        body {
+            background: var(--primary-color);
+            color: var(--text-color);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .header,
+        .chat-list .message,
+        .typing-form {
+            margin: 0 auto;
+            max-width: 980px;
+        }
+
+        .header {
+            margin-top: 2vh;
+            padding: 1rem;
+            overflow-x: hidden;
+        }
+
+        /* --- Travel Dashboard & Switches --- */
+        .travel-dashboard {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            background: var(--secondary-color);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .history-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .history-btn:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: var(--primary-color);
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+        }
+
+        .switch-btn {
+            flex: 1;
+            padding: 8px 15px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .switch-btn.active {
+            background: var(--secondary-hover-color);
+            opacity: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch-btn:hover:not(.active) {
+            background: var(--secondary-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+            background: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--panel-border);
+        }
+
+        /* --- Chat Interface --- */
+        .chat-list {
+            padding: 2rem 1rem 12rem;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-color: #999 transparent;
+        }
+
+        .typing-area {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            padding: 1rem;
+            background: var(--primary-color);
+            border-top: 1px solid var(--panel-border);
+        }
+
+        .typing-area :where(.typing-form, .action-buttons) {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .typing-form .input-wrapper {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            position: relative;
+        }
+
+        .typing-form .typing-input {
+            height: 100%;
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 1rem;
+            color: var(--text-color);
+            padding: 1.1rem 4rem 1.1rem 1.5rem;
+            border-radius: 100px;
+            background: var(--secondary-color);
+        }
+
+        .typing-form .typing-input:focus {
+            background: var(--secondary-hover-color);
+        }
+
+        .typing-form .typing-input::placeholder {
+            color: var(--placeholder-color);
+        }
+
+        .typing-area .icon {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            font-size: 1.4rem;
+            color: var(--text-color);
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-color);
+            transition: 0.2s ease;
+        }
+
+        .typing-area .icon:hover {
+            background: var(--secondary-hover-color);
+        }
+
+        .typing-form #send-message-button {
+            position: absolute;
+            right: 0;
+            outline: none;
+            border: none;
+            background: transparent;
+        }
+
+        .typing-area .disclaimer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            color: var(--placeholder-color);
+        }
+
+        @media (max-width: 768px) {
+            .typing-area :where(.typing-form, .action-buttons) {
+                gap: 0.4rem;
+            }
+
+            .typing-form .input-wrapper {
+                height: 50px;
+            }
+
+            .typing-form .typing-input {
+                padding: 1.1rem 3.5rem 1.1rem 1.2rem;
+            }
+
+            .typing-area .icon {
+                height: 50px;
+                width: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="travel-dashboard">
+            <div class="dashboard-header">
+                <div class="dashboard-title">Live Pricing Market</div>
+                <button class="history-btn">
+                    <span class="material-symbols-rounded" style="font-size: 18px;">history</span>
+                    Travel History
+                </button>
+            </div>
+
+            <div class="switch-container">
+                <button class="switch-btn active" data-type="train">Train</button>
+                <button class="switch-btn" data-type="bus">Bus</button>
+                <button class="switch-btn" data-type="flight">Flight</button>
+                <button class="switch-btn" data-type="metro">Metro</button>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+    </header>
+
+    <div class="chat-list"></div>
+
+    <div class="typing-area">
+        <form class="typing-form">
+            <div class="input-wrapper">
+                <input type="text" placeholder="Ask Mega-Bot to book a ticket..." class="typing-input" required />
+                <button id="send-message-button" type="button" class="icon material-symbols-rounded">send</button>
+            </div>
+            <div class="action-buttons">
+                <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
+                <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
+            </div>
+        </form>
+        <p class="disclaimer-text">
+            Mega-Bot AI tracks real-time prices to find you the best travel deals globally.
+        </p>
+    </div>
+
+    <script>
+        // --- Theme Toggle Logic ---
+        const themeToggleButton = document.getElementById("theme-toggle-button");
+        themeToggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("light_mode");
+            // Switch icon between light/dark
+            themeToggleButton.textContent = document.body.classList.contains("light_mode") ? "dark_mode" : "light_mode";
+
+            // Re-render chart to update grid colors for the new theme
+            if (priceChart) priceChart.update();
+        });
+
+        // --- Real-time Stock Market Chart Logic ---
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        let priceChart;
+        let updateInterval;
+
+        // Generate initial time labels
+        const generateLabels = () => {
+            let labels = [];
+            let now = new Date();
+            for (let i = 10; i >= 0; i--) {
+                let time = new Date(now.getTime() - i * 2000);
+                labels.push(time.toLocaleTimeString([], { hour12: false, minute: '2-digit', second: '2-digit' }));
+            }
+            return labels;
+        };
+
+        // Base stock data configuration (Tension: 0 makes it jagged like a stock chart)
+        const chartDataSets = {
+            train: [
+                { label: 'Amtrak', data: [55, 54, 56, 55.5, 57, 58, 56, 59, 60, 58, 59], borderColor: '#1D4ED8', backgroundColor: 'rgba(29, 78, 216, 0.1)', tension: 0, fill: true, borderWidth: 2 },
+                { label: 'Brightline', data: [70, 71, 69, 72, 73, 71, 74, 75, 73, 76, 75], borderColor: '#047857', backgroundColor: 'rgba(4, 120, 87, 0.1)', tension: 0, fill: true, borderWidth: 2 },
+                { label: 'Acela', data: [110, 108, 112, 115, 114, 118, 120, 119, 122, 125, 124], borderColor: '#D97706', tension: 0, borderWidth: 2 }
+            ],
+            bus: [
+                { label: 'Greyhound', data: [25, 26, 24, 25, 27, 26, 28, 27, 29, 28, 30], borderColor: '#B91C1C', tension: 0, fill: false, borderWidth: 2 },
+                { label: 'Megabus', data: [15, 14, 16, 15, 17, 18, 17, 19, 20, 19, 21], borderColor: '#6D28D9', tension: 0, fill: false, borderWidth: 2 }
+            ],
+            flight: [
+                { label: 'Delta', data: [250, 255, 248, 260, 258, 265, 270, 268, 275, 280, 278], borderColor: '#4338CA', tension: 0, borderWidth: 2 },
+                { label: 'Spirit', data: [90, 88, 92, 95, 91, 89, 94, 98, 95, 100, 99], borderColor: '#F59E0B', tension: 0, borderWidth: 2 },
+                { label: 'United', data: [210, 215, 212, 220, 218, 225, 222, 230, 228, 235, 232], borderColor: '#0EA5E9', tension: 0, borderWidth: 2 }
+            ],
+            metro: [
+                { label: 'City Transit', data: [2.5, 2.5, 2.5, 2.75, 2.75, 2.75, 2.75, 3.0, 3.0, 3.0, 3.0], borderColor: '#BE185D', tension: 0, stepline: true, borderWidth: 2 },
+                { label: 'Express Pass', data: [5.0, 5.0, 5.5, 5.5, 5.5, 6.0, 6.0, 6.0, 6.5, 6.5, 6.5], borderColor: '#10B981', tension: 0, stepline: true, borderWidth: 2 }
+            ]
+        };
+
+        let currentType = 'train';
+        let labels = generateLabels();
+
+        function initChart(type) {
+            currentType = type;
+            if (priceChart) priceChart.destroy();
+            clearInterval(updateInterval); // Stop previous interval
+
+            // Copy data so we don't mutate the base structure directly on switch
+            const datasets = JSON.parse(JSON.stringify(chartDataSets[type]));
+
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: [...labels], datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 400, easing: 'linear' }, // Smooth stock market scrolling
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: () => document.body.classList.contains('light_mode') ? '#333' : '#ccc' }
+                        },
+                        tooltip: { backgroundColor: 'rgba(0,0,0,0.8)' }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: () => document.body.classList.contains('light_mode') ? '#eee' : '#333' },
+                            ticks: { color: () => document.body.classList.contains('light_mode') ? '#666' : '#aaa' }
+                        },
+                        y: {
+                            beginAtZero: false, // Don't begin at zero for stock-like charts
+                            grid: { color: () => document.body.classList.contains('light_mode') ? '#eee' : '#333' },
+                            ticks: {
+                                color: () => document.body.classList.contains('light_mode') ? '#666' : '#aaa',
+                                callback: function (value) { return '$' + value; }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Start Live Market Simulation
+            updateInterval = setInterval(() => {
+                let now = new Date();
+                let timeStr = now.toLocaleTimeString([], { hour12: false, minute: '2-digit', second: '2-digit' });
+
+                // Shift labels
+                priceChart.data.labels.push(timeStr);
+                priceChart.data.labels.shift();
+
+                // Shift data and generate new random price close to the last one
+                priceChart.data.datasets.forEach(dataset => {
+                    let lastPrice = dataset.data[dataset.data.length - 1];
+                    let volatility = lastPrice * 0.03; // Max 3% swing
+                    let change = (Math.random() * volatility * 2) - volatility;
+                    let newPrice = lastPrice + change;
+
+                    dataset.data.push(Number(newPrice.toFixed(2)));
+                    dataset.data.shift();
+                });
+
+                priceChart.update('none'); // Update without full animation for smoother scrolling
+            }, 2000); // Updates every 2 seconds
+        }
+
+        // Initialize default chart
+        initChart('train');
+
+        // Switch Data Types
+        document.querySelectorAll('.switch-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.switch-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                initChart(e.target.getAttribute('data-type'));
+            });
+        });
+
+    </script>
+</body>
+
+</html>
