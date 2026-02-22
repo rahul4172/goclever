@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure & Transparent Payment | Indian Travel Booking</title>
+  <title>TravelCompare | Indian Travel Booking - Price Transparency</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -29,14 +29,18 @@
       --gray-800: #1E293B;
       --gray-900: #0F172A;
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-      --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.25), 0 0 32px rgba(16, 185, 129, 0.12);
+      --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 0 24px rgba(16, 185, 129, 0.15);
       --radius: 16px;
       --radius-sm: 12px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -44,405 +48,583 @@
       color: var(--gray-900);
       min-height: 100vh;
       line-height: 1.5;
-      padding-bottom: 100px;
     }
 
-    .payment-page {
-      max-width: 560px;
+    .comparison-section {
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 32px 24px 120px;
+      padding: 32px 24px 64px;
     }
 
-    .page-header {
-      text-align: center;
+    .section-header {
       margin-bottom: 32px;
     }
 
-    .page-header h1 {
+    .section-header h1 {
       font-size: 1.75rem;
       font-weight: 700;
       color: var(--gray-900);
       letter-spacing: -0.02em;
     }
 
-    .page-header p {
-      font-size: 0.9375rem;
+    .section-header p {
       color: var(--gray-600);
-      margin-top: 8px;
+      margin-top: 6px;
+      font-size: 0.9375rem;
     }
 
-    /* Booking Summary Card */
-    .summary-card {
+    /* Filters */
+    .filters-bar {
       background: var(--white);
       border-radius: var(--radius);
       padding: 24px;
-      box-shadow: var(--shadow-md);
       margin-bottom: 24px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
     }
 
-    .route-info {
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-group select,
+    .filter-group input[type="range"] {
+      font-family: inherit;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-size: 0.875rem;
+      min-width: 140px;
+    }
+
+    .budget-slider {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--gray-100);
     }
 
-    .route-text {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--gray-900);
+    .budget-slider input[type="range"] {
+      width: 120px;
+      padding: 0;
     }
 
-    .route-arrow { color: var(--soft-blue-500); font-size: 1rem; }
-
-    .trip-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 24px;
-      font-size: 0.875rem;
-      color: var(--gray-600);
-      margin-bottom: 20px;
-    }
-
-    .trip-meta span { display: flex; align-items: center; gap: 6px; }
-
-    .price-rows {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9375rem;
-      color: var(--gray-600);
-    }
-
-    .price-row.total {
-      margin-top: 12px;
-      padding-top: 16px;
-      border-top: 2px solid var(--gray-100);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--gray-900);
+    .budget-value {
       font-family: 'JetBrains Mono', monospace;
-    }
-
-    .verified-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: var(--green-50);
-      border: 1px solid var(--green-200);
-      border-radius: var(--radius-sm);
-      margin-top: 16px;
       font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--green-600);
+      font-weight: 500;
+      color: var(--gray-800);
+      min-width: 60px;
     }
 
-    .verified-badge svg { width: 20px; height: 20px; }
-
-    .breakdown-trigger {
+    .toggle-group {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 16px;
-      padding: 12px 16px;
-      background: var(--gray-50);
-      border: none;
+      background: var(--gray-100);
       border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--soft-blue-600);
+      padding: 4px;
+      gap: 2px;
+    }
+
+    .toggle-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--gray-600);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .breakdown-trigger:hover { background: var(--soft-blue-50); }
-
-    .breakdown-trigger .chevron {
-      transition: transform 0.3s ease;
+    .toggle-btn:hover {
+      color: var(--gray-800);
     }
 
-    .breakdown-trigger.open .chevron { transform: rotate(180deg); }
-
-    .breakdown-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .toggle-btn.active {
+      background: var(--white);
+      color: var(--soft-blue-600);
+      box-shadow: var(--shadow-sm);
     }
 
-    .breakdown-content.open { max-height: 280px; }
+    .ai-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, var(--soft-blue-50), var(--white));
+      border: 1px solid var(--soft-blue-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-    .breakdown-inner {
-      padding: 20px 0 0;
+    .ai-toggle:hover {
+      border-color: var(--soft-blue-300);
+    }
+
+    .ai-toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green-500);
+    }
+
+    .ai-toggle span {
       font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-800);
     }
 
-    .breakdown-inner .price-row { padding: 6px 0; }
-
-    /* Payment Method Tabs */
-    .payment-section {
+    /* Comparison Toggle */
+    .comparison-mode {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px 20px;
       background: var(--white);
       border-radius: var(--radius);
-      padding: 24px;
       box-shadow: var(--shadow-md);
-      margin-bottom: 24px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
-    .section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 20px;
-    }
-
-    .payment-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .payment-tab {
-      flex-shrink: 0;
-      scroll-snap-align: start;
-      padding: 12px 20px;
-      border: 2px solid var(--gray-200);
-      background: var(--white);
-      border-radius: var(--radius-sm);
+    .comparison-mode span {
       font-size: 0.875rem;
       font-weight: 600;
       color: var(--gray-600);
-      cursor: pointer;
-      transition: all 0.25s ease;
     }
 
-    .payment-tab:hover {
-      border-color: var(--soft-blue-300);
-      color: var(--soft-blue-600);
-    }
-
-    .payment-tab.active {
-      border-color: var(--green-500);
-      background: linear-gradient(135deg, var(--green-50), var(--white));
-      color: var(--green-600);
-      box-shadow: var(--shadow-glow);
-    }
-
-    /* UPI Content */
-    .payment-content { display: none; }
-    .payment-content.active { display: block; animation: fadeIn 0.3s ease; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .upi-apps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .upi-app-card {
+    .comparison-slots {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       gap: 8px;
-      padding: 16px 12px;
-      background: var(--gray-50);
-      border: 2px solid transparent;
+      flex-wrap: wrap;
+    }
+
+    .comparison-slot {
+      padding: 8px 16px;
+      border: 2px dashed var(--gray-200);
       border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.25s ease;
+      font-size: 0.8125rem;
+      color: var(--gray-400);
+      min-width: 120px;
+      text-align: center;
     }
 
-    .upi-app-card:hover {
+    .comparison-slot.filled {
+      border-style: solid;
+      border-color: var(--soft-blue-300);
       background: var(--soft-blue-50);
-      border-color: var(--soft-blue-200);
-      transform: translateY(-2px);
+      color: var(--gray-800);
     }
 
-    .upi-app-card .app-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--white);
+    /* AI Insight Panel */
+    .ai-insight-panel {
+      background: linear-gradient(135deg, var(--soft-blue-50) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 1px solid var(--soft-blue-200);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .ai-insight-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--green-500), var(--green-600));
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
-      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ai-insight-icon svg {
+      width: 24px;
+      height: 24px;
       color: white;
-      box-shadow: var(--shadow-sm);
     }
 
-    .upi-app-card:nth-child(1) .app-icon { background: linear-gradient(135deg, #4285F4, #34A853); }
-    .upi-app-card:nth-child(2) .app-icon { background: linear-gradient(135deg, #5F259F, #3560F5); }
-    .upi-app-card:nth-child(3) .app-icon { background: linear-gradient(135deg, #00BAF2, #00B5A0); }
-    .upi-app-card:nth-child(4) .app-icon { background: linear-gradient(135deg, #FF6B35, #F7931A); }
-
-    .upi-app-card .app-name { font-size: 0.75rem; font-weight: 600; color: var(--gray-700); }
-    .upi-app-card .app-label { font-size: 0.625rem; color: var(--green-600); font-weight: 600; }
-
-    .upi-divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 24px 0;
-      font-size: 0.75rem;
-      color: var(--gray-400);
-    }
-
-    .upi-divider::before, .upi-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--gray-200);
-    }
-
-    .upi-input-group {
-      margin-bottom: 24px;
-    }
-
-    .upi-input-group label {
-      display: block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--gray-700);
-      margin-bottom: 8px;
-    }
-
-    .upi-input-wrap {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .upi-input {
-      flex: 1;
-      padding: 14px 16px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
+    .ai-insight-content h3 {
       font-size: 0.9375rem;
-      font-family: 'JetBrains Mono', monospace;
-      transition: all 0.2s ease;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 4px;
     }
 
-    .upi-input:focus {
-      outline: none;
-      border-color: var(--soft-blue-500);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-
-    .upi-input.verified {
-      border-color: var(--green-500);
-      background: var(--green-50);
-    }
-
-    .verify-btn {
-      padding: 14px 20px;
-      background: var(--soft-blue-500);
-      color: white;
-      border: none;
-      border-radius: var(--radius-sm);
+    .ai-insight-content p {
       font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      color: var(--gray-600);
     }
 
-    .verify-btn:hover { background: var(--soft-blue-600); }
-
-    .verified-msg {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--green-600);
-    }
-
-    .verified-msg.show { display: flex; }
-
-    .verified-msg svg { width: 20px; height: 20px; }
-
-    .upi-divider-2 { margin: 28px 0 24px; }
-
-    .qr-section {
-      text-align: center;
-      padding: 28px;
-      background: var(--gray-50);
-      border-radius: var(--radius);
-      border: 2px dashed var(--gray-200);
-    }
-
-    .qr-placeholder {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 16px;
-      background: var(--white);
-      border-radius: var(--radius-sm);
+    /* Travel Cards Grid */
+    .travel-cards-grid {
       display: grid;
-      grid-template-columns: repeat(17, 1fr);
-      grid-template-rows: repeat(17, 1fr);
-      gap: 2px;
-      padding: 14px;
-      box-shadow: var(--shadow-sm);
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
     }
 
-    .qr-placeholder .qr-cell {
-      background: var(--gray-900);
-      border-radius: 2px;
+    .travel-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
 
-    .qr-timer {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--gray-700);
+    .travel-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--soft-blue-200);
+    }
+
+    .travel-card.best-value {
+      border-color: var(--green-400);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .travel-card.best-value .badge-best-value {
+      animation: subtle-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes subtle-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.9; }
+    }
+
+    .travel-card.ai-recommended {
+      border-color: var(--green-500);
+    }
+
+    .travel-card.ai-recommended:hover {
+      box-shadow: var(--shadow-glow), var(--shadow-lg);
+    }
+
+    .travel-card.ai-recommended::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-500), var(--green-400));
+    }
+
+    .travel-card .compare-check {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--gray-300);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .travel-card .compare-check:hover {
+      border-color: var(--soft-blue-500);
+    }
+
+    .travel-card .compare-check.selected {
+      background: var(--soft-blue-500);
+      border-color: var(--soft-blue-500);
+    }
+
+    .travel-card .compare-check.selected::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 16px;
     }
 
-    .qr-timer.warning { color: #EA580C; }
-    .qr-timer.expiring { color: #DC2626; animation: pulse 1s infinite; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
 
-    @keyframes pulse { 50% { opacity: 0.7; } }
+    .badge-verified {
+      background: var(--green-500);
+      color: white;
+    }
 
-    .qr-actions {
+    .badge-women-safety {
+      background: linear-gradient(135deg, #EC4899, #DB2777);
+      color: white;
+    }
+
+    .badge-best-value {
+      background: linear-gradient(135deg, var(--green-500), var(--green-600));
+      color: white;
+    }
+
+    .route-info {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .route-arrow {
+      color: var(--soft-blue-500);
+      font-size: 1rem;
+    }
+
+    .transport-type {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .timing-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+    }
+
+    .timing-item {
+      text-align: center;
+    }
+
+    .timing-item.center {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
+      align-items: center;
+      gap: 2px;
     }
 
-    .btn-regenerate {
-      padding: 10px 16px;
-      background: var(--white);
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
+    .timing-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+    }
+
+    .timing-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .duration-badge {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+    }
+
+    .price-section {
+      margin-bottom: 16px;
+    }
+
+    .base-fare {
+      font-size: 0.8125rem;
+      color: var(--gray-600);
+      margin-bottom: 4px;
+    }
+
+    .final-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      font-family: 'JetBrains Mono', monospace;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .travel-card:hover .final-price {
+      transform: scale(1.02);
+      color: var(--green-600);
+    }
+
+    .transparency-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
       font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--gray-600);
+      color: var(--green-600);
       cursor: pointer;
-      transition: all 0.2s ease;
+      background: none;
+      border: none;
+      transition: color 0.2s;
     }
 
-    .btn-regenerate:hover { border-color: var(--soft-blue-300); color: var(--soft-blue-600); }
+    .transparency-trigger:hover {
+      color: var(--green-500);
+    }
 
-    .btn-completed {
-      padding: 14px 24px;
+    .expandable-breakdown {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      margin-top: 0;
+    }
+
+    .expandable-breakdown.open {
+      max-height: 240px;
+    }
+
+    .expandable-breakdown-inner {
+      padding: 12px 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+      font-size: 0.8125rem;
+    }
+
+    .expandable-breakdown-inner div {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .expandable-breakdown-inner div:last-child {
+      font-weight: 600;
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .metric {
+      padding: 10px 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+    }
+
+    .metric-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .score-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    .score-fill.green { background: linear-gradient(90deg, var(--green-400), var(--green-600)); }
+    .score-fill.yellow { background: linear-gradient(90deg, #FBBF24, #F59E0B); }
+    .score-fill.orange { background: linear-gradient(90deg, #FB923C, #EA580C); }
+
+    .metric-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      font-weight: 600;
+      min-width: 36px;
+    }
+
+    .availability-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .availability-dot.green { background: var(--green-500); }
+    .availability-dot.yellow { background: #FBBF24; }
+    .availability-dot.red { background: #EF4444; }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .rating-stars {
+      color: #FBBF24;
+      font-size: 0.875rem;
+    }
+
+    .rating-text {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .rating-count {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .btn-primary {
+      flex: 1;
+      padding: 12px 20px;
       background: linear-gradient(135deg, var(--green-500), var(--green-600));
       color: white;
       border: none;
@@ -453,413 +635,698 @@
       transition: all 0.2s ease;
     }
 
-    .btn-completed:hover {
+    .btn-primary:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
     }
 
-    .qr-note {
-      font-size: 0.75rem;
-      color: var(--gray-500);
-      margin-top: 16px;
-    }
-
-    /* Placeholder content for other tabs */
-    .placeholder-content {
-      padding: 40px 20px;
-      text-align: center;
-      color: var(--gray-500);
-      font-size: 0.9375rem;
-    }
-
-    /* Security badges */
-    .security-section {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding: 20px;
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(0, 0, 0, 0.04);
-    }
-
-    .security-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .btn-secondary {
       padding: 12px 16px;
-      background: var(--gray-50);
-      border-radius: var(--radius-sm);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--gray-700);
-    }
-
-    .security-badge .icon { font-size: 1.25rem; }
-
-    .ai-badge {
-      background: linear-gradient(135deg, var(--soft-blue-50), var(--green-50));
-      border: 1px solid var(--green-200);
-      color: var(--green-700);
-    }
-
-    /* Confirmation Preview */
-    .confirmation-preview {
-      background: linear-gradient(135deg, var(--soft-blue-50) 0%, var(--green-50) 100%);
-      border: 1px solid var(--soft-blue-200);
-      border-radius: var(--radius);
-      padding: 24px;
-      text-align: center;
-    }
-
-    .confirmation-preview h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 16px;
-    }
-
-    .confirmation-features {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
-    .confirmation-feature {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8125rem;
-      color: var(--gray-600);
-    }
-
-    .confirmation-feature .icon {
-      width: 48px;
-      height: 48px;
-      background: var(--white);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .pnr-preview {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--green-600);
-      letter-spacing: 0.1em;
-      margin-top: 8px;
-    }
-
-    /* Sticky Pay Button - Mobile */
-    .sticky-pay {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 16px 24px;
-      background: var(--white);
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-      z-index: 100;
-    }
-
-    .sticky-pay .pay-btn {
-      width: 100%;
-      padding: 18px 24px;
-      background: linear-gradient(135deg, var(--green-500), var(--green-600));
-      color: white;
+      background: var(--gray-100);
+      color: var(--gray-800);
       border: none;
       border-radius: var(--radius-sm);
-      font-size: 1.125rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .sticky-pay .pay-btn:hover { box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4); }
-
-    @media (max-width: 640px) {
-      .payment-page { padding: 24px 16px 140px; }
-      .upi-apps { grid-template-columns: repeat(2, 1fr); }
-      .sticky-pay { display: block; }
-      .qr-placeholder { width: 100%; max-width: 260px; height: 260px; }
+    .btn-secondary:hover {
+      background: var(--gray-200);
     }
 
-    .desktop-pay {
-      margin-top: 32px;
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
       display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    @media (min-width: 641px) {
-      .desktop-pay { display: block !important; }
-      .sticky-pay { display: none !important; }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius);
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 24px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--gray-500);
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.9375rem;
+    }
+
+    .breakdown-row:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown-row.highlight {
+      background: var(--soft-blue-50);
+      margin: 0 -24px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+    }
+
+    .breakdown-row .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green-600);
+      font-weight: 600;
+    }
+
+    .breakdown-row .verified svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .market-comparison {
+      margin-top: 20px;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--green-50), var(--white));
+      border: 1px solid var(--green-200);
+      border-radius: var(--radius-sm);
+    }
+
+    .market-comparison p {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+    }
+
+    .market-comparison strong {
+      color: var(--green-600);
+    }
+
+    /* Side by side comparison view */
+    .comparison-view {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .comparison-view.active {
+      display: block;
+    }
+
+    .comparison-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* Swipe hint for mobile comparison */
+    .comparison-slot {
+      touch-action: pan-y;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-mode {
+        flex-direction: column;
+      }
+
+      .comparison-slots {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+      }
+
+      .comparison-slot {
+        scroll-snap-align: start;
+        flex-shrink: 0;
+      }
+      .comparison-section {
+        padding: 20px 16px 48px;
+      }
+
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .filter-group select {
+        min-width: 100%;
+      }
+
+      .toggle-group {
+        flex-wrap: wrap;
+      }
+
+      .travel-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .timing-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="payment-page">
-    <header class="page-header">
-      <h1>Secure & Transparent Payment</h1>
-      <p>Pay with confidence. No hidden charges. Instant confirmation.</p>
-    </header>
+  <section class="comparison-section">
+    <div class="section-header">
+      <h1>Compare Travel Options</h1>
+      <p>Transparent pricing. AI-powered recommendations. Book with confidence.</p>
+    </div>
 
-    <!-- 1. Booking Summary Card -->
-    <div class="summary-card">
-      <div class="route-info">
-        <span class="route-text">Mumbai CST</span>
-        <span class="route-arrow">→</span>
-        <span class="route-text">Pune Junction</span>
+    <!-- Filters -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <label>Departure Time</label>
+        <select id="departureTime">
+          <option>06:00 - 09:00</option>
+          <option>09:00 - 12:00</option>
+          <option>12:00 - 18:00</option>
+          <option>18:00 - 22:00</option>
+          <option>Anytime</option>
+        </select>
       </div>
-      <div class="trip-meta">
-        <span>🚂 Train</span>
-        <span>📅 24 Feb 2025</span>
-        <span>🕐 07:30 – 10:45</span>
-        <span>👥 2 Passengers</span>
-      </div>
-      <div class="price-rows">
-        <div class="price-row"><span>Base Fare</span><span>₹1,798</span></div>
-        <div class="price-row"><span>Taxes</span><span>₹322</span></div>
-        <div class="price-row"><span>Platform Fee</span><span>₹49</span></div>
-        <div class="price-row total"><span>Total</span><span>₹2,169</span></div>
-      </div>
-      <div class="verified-badge">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-        ₹0 Hidden Charges – Verified
-      </div>
-      <button class="breakdown-trigger" id="breakdownTrigger" aria-expanded="false">
-        <span>View Full Price Breakdown</span>
-        <span class="chevron">▼</span>
-      </button>
-      <div class="breakdown-content" id="breakdownContent">
-        <div class="breakdown-inner">
-          <div class="price-row"><span>Base Fare (2 pax)</span><span>₹899 × 2</span></div>
-          <div class="price-row"><span>IRCTC Convenience Fee</span><span>₹120</span></div>
-          <div class="price-row"><span>GST (18%)</span><span>₹202</span></div>
-          <div class="price-row"><span>Platform Service Fee</span><span>₹49</span></div>
-          <div class="price-row"><span>Operator Commission</span><span>Included</span></div>
-          <div class="price-row"><span>Hidden Charges</span><span style="color: var(--green-600); font-weight: 600;">₹0 ✓</span></div>
+      <div class="filter-group">
+        <label>Budget (₹)</label>
+        <div class="budget-slider">
+          <input type="range" id="budget" min="500" max="5000" value="2500" step="100">
+          <span class="budget-value" id="budgetValue">₹2,500</span>
         </div>
+      </div>
+      <div class="filter-group">
+        <label>Comfort Level</label>
+        <select id="comfort">
+          <option>Any</option>
+          <option>Economy</option>
+          <option>Standard</option>
+          <option>Premium</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sort By</label>
+        <div class="toggle-group">
+          <button class="toggle-btn" data-sort="cheapest">Cheapest</button>
+          <button class="toggle-btn" data-sort="fastest">Fastest</button>
+          <button class="toggle-btn active" data-sort="smartest">Smartest</button>
+        </div>
+      </div>
+      <div class="ai-toggle">
+        <input type="checkbox" id="aiRecommended" checked>
+        <span>AI Recommended</span>
       </div>
     </div>
 
-    <!-- 2. Payment Method Selection -->
-    <div class="payment-section">
-      <h2 class="section-title">Choose Payment Method</h2>
-      <div class="payment-tabs">
-        <button class="payment-tab active" data-tab="upi">UPI</button>
-        <button class="payment-tab" data-tab="cards">Cards</button>
-        <button class="payment-tab" data-tab="netbanking">Net Banking</button>
-        <button class="payment-tab" data-tab="wallets">Wallets</button>
+    <!-- Comparison Mode -->
+    <div class="comparison-mode">
+      <span>Compare up to 3:</span>
+      <div class="comparison-slots">
+        <div class="comparison-slot" data-slot="0">Slot 1</div>
+        <div class="comparison-slot" data-slot="1">Slot 2</div>
+        <div class="comparison-slot" data-slot="2">Slot 3</div>
       </div>
+      <button class="btn-secondary" id="clearCompare" style="margin-left: auto;">Clear</button>
+    </div>
 
-      <!-- UPI Content -->
-      <div class="payment-content active" id="content-upi">
-        <div class="upi-apps">
-          <div class="upi-app-card">
-            <div class="app-icon">G</div>
-            <span class="app-name">Google Pay</span>
-            <span class="app-label">Pay Instantly</span>
-          </div>
-          <div class="upi-app-card">
-            <div class="app-icon">P</div>
-            <span class="app-name">PhonePe</span>
-            <span class="app-label">Pay Instantly</span>
-          </div>
-          <div class="upi-app-card">
-            <div class="app-icon">P</div>
-            <span class="app-name">Paytm</span>
-            <span class="app-label">Pay Instantly</span>
-          </div>
-          <div class="upi-app-card">
-            <div class="app-icon">B</div>
-            <span class="app-name">BHIM</span>
-            <span class="app-label">Pay Instantly</span>
-          </div>
+    <!-- AI Insight -->
+    <div class="ai-insight-panel">
+      <div class="ai-insight-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      </div>
+      <div class="ai-insight-content">
+        <h3>AI Suggestion</h3>
+        <p id="aiSuggestionText">This option is <strong>12% cheaper</strong> than average and has <strong>87% on-time probability</strong>. Best value for your route.</p>
+      </div>
+    </div>
+
+    <!-- Travel Cards -->
+    <div class="travel-cards-grid" id="travelCards">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <!-- Comparison View -->
+    <div class="comparison-view" id="comparisonView">
+      <h2 style="margin-bottom: 20px; font-size: 1.25rem;">Side-by-Side Comparison</h2>
+      <div class="comparison-cards" id="comparisonCards"></div>
+    </div>
+  </section>
+
+  <!-- Price Transparency Modal -->
+  <div class="modal-overlay" id="transparencyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Price Transparency Breakdown</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="breakdown-row">
+          <span>Base Fare</span>
+          <span id="modalBaseFare">₹899</span>
         </div>
-
-        <div class="upi-divider">or</div>
-
-        <div class="upi-input-group">
-          <label>Enter UPI ID Manually</label>
-          <div class="upi-input-wrap">
-            <input type="text" class="upi-input" id="upiInput" placeholder="yourname@upi" autocomplete="off">
-            <button class="verify-btn" id="verifyBtn">Verify UPI ID</button>
-          </div>
-          <div class="verified-msg" id="verifiedMsg">
+        <div class="breakdown-row">
+          <span>Dynamic Pricing Factor</span>
+          <span id="modalDynamic">+₹45</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Platform Service Fee</span>
+          <span id="modalPlatform">₹49</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Operator Commission</span>
+          <span id="modalCommission">₹67</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Hidden Charges</span>
+          <span class="verified">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-            UPI ID Verified
-          </div>
+            ₹0 Verified
+          </span>
         </div>
-
-        <div class="upi-divider upi-divider-2">or</div>
-
-        <div class="qr-section">
-          <div class="qr-placeholder" id="qrPlaceholder"></div>
-          <div class="qr-timer" id="qrTimer">QR expires in <span id="timerMins">02</span>:<span id="timerSecs">59</span></div>
-          <div class="qr-actions">
-            <button class="btn-regenerate" id="regenerateBtn">Regenerate QR</button>
-            <button class="btn-completed" id="completedBtn">I have completed payment</button>
-          </div>
-          <p class="qr-note">Scan using any UPI app</p>
+        <div class="breakdown-row highlight">
+          <span><strong>Final Price</strong></span>
+          <span id="modalFinal" style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">₹1,060</span>
         </div>
-      </div>
-
-      <!-- Cards placeholder -->
-      <div class="payment-content" id="content-cards">
-        <div class="placeholder-content">💳 Add your card details • Debit / Credit</div>
-      </div>
-
-      <!-- Net Banking placeholder -->
-      <div class="payment-content" id="content-netbanking">
-        <div class="placeholder-content">🏦 Select your bank • Secure redirect</div>
-      </div>
-
-      <!-- Wallets placeholder -->
-      <div class="payment-content" id="content-wallets">
-        <div class="placeholder-content">👛 Amazon Pay • MobiKwik • Freecharge</div>
-      </div>
-    </div>
-
-    <!-- 3. Security Badges -->
-    <div class="security-section">
-      <div class="security-badge"><span class="icon">🔒</span> 256-bit encryption</div>
-      <div class="security-badge"><span class="icon">✓</span> RBI compliant</div>
-      <div class="security-badge"><span class="icon">★</span> 4.9/5 Payment Satisfaction</div>
-      <div class="security-badge"><span class="icon">⚡</span> 30-sec checkout</div>
-      <div class="security-badge ai-badge"><span class="icon">🤖</span> AI Fraud Detection Enabled</div>
-    </div>
-
-    <!-- 4. Confirmation Preview -->
-    <div class="confirmation-preview">
-      <h3>Instant Ticket Confirmation After Payment</h3>
-      <div class="confirmation-features">
-        <div class="confirmation-feature">
-          <div class="icon">🎫</div>
-          <span>PNR in 2 seconds</span>
-          <span class="pnr-preview">XXXXXXX</span>
-        </div>
-        <div class="confirmation-feature">
-          <div class="icon">📧</div>
-          <span>Email confirmation</span>
-        </div>
-        <div class="confirmation-feature">
-          <div class="icon">📱</div>
-          <span>SMS confirmation</span>
+        <div class="market-comparison">
+          <p>📊 <strong>Market Comparison:</strong> This price is <strong>12% below</strong> the average market rate of ₹1,204 for similar routes.</p>
         </div>
       </div>
     </div>
-
-    <!-- Desktop Pay Button -->
-    <div class="desktop-pay">
-      <button class="btn-completed" style="width: 100%; padding: 18px;">Pay ₹2,169</button>
-    </div>
-  </div>
-
-  <!-- Mobile Sticky Pay Button -->
-  <div class="sticky-pay">
-    <button class="pay-btn">Pay ₹2,169</button>
   </div>
 
   <script>
-    // Price breakdown toggle
-    const breakdownTrigger = document.getElementById('breakdownTrigger');
-    const breakdownContent = document.getElementById('breakdownContent');
-    breakdownTrigger.addEventListener('click', () => {
-      const isOpen = breakdownContent.classList.toggle('open');
-      breakdownTrigger.classList.toggle('open', isOpen);
-      breakdownTrigger.setAttribute('aria-expanded', isOpen);
+    const travelData = [
+      {
+        id: 1,
+        type: 'Train',
+        source: 'Mumbai CST',
+        destination: 'Pune Junction',
+        departure: '07:30',
+        arrival: '10:45',
+        duration: '3h 15m',
+        baseFare: 899,
+        taxes: 161,
+        finalPrice: 1060,
+        comfortScore: 8.2,
+        punctuality: 87,
+        cleanliness: 8.5,
+        confidenceIndex: 92,
+        womenSafety: 9.1,
+        availability: 'green',
+        crowdLevel: 65,
+        verified: true,
+        rating: 4.8,
+        reviews: 12453,
+        bestValue: true,
+        aiRecommended: true
+      },
+      {
+        id: 2,
+        type: 'Bus',
+        source: 'Mumbai CST',
+        destination: 'Pune Junction',
+        departure: '08:00',
+        arrival: '12:30',
+        duration: '4h 30m',
+        baseFare: 549,
+        taxes: 51,
+        finalPrice: 600,
+        comfortScore: 6.8,
+        punctuality: 72,
+        cleanliness: 7.2,
+        confidenceIndex: 78,
+        womenSafety: 8.4,
+        availability: 'yellow',
+        crowdLevel: 45,
+        verified: true,
+        rating: 4.6,
+        reviews: 8234,
+        bestValue: false,
+        aiRecommended: false
+      },
+      {
+        id: 3,
+        type: 'Flight',
+        source: 'Mumbai CST',
+        destination: 'Pune Junction',
+        departure: '09:15',
+        arrival: '09:55',
+        duration: '40m',
+        baseFare: 1899,
+        taxes: 401,
+        finalPrice: 2300,
+        comfortScore: 9.1,
+        punctuality: 94,
+        cleanliness: 9.0,
+        confidenceIndex: 96,
+        womenSafety: 9.5,
+        availability: 'green',
+        crowdLevel: 30,
+        verified: true,
+        rating: 4.9,
+        reviews: 4521,
+        bestValue: false,
+        aiRecommended: true
+      },
+      {
+        id: 4,
+        type: 'Metro',
+        source: 'Andheri',
+        destination: 'Ghatkopar',
+        departure: '07:45',
+        arrival: '08:15',
+        duration: '30m',
+        baseFare: 40,
+        taxes: 0,
+        finalPrice: 40,
+        comfortScore: 7.5,
+        punctuality: 98,
+        cleanliness: 8.8,
+        confidenceIndex: 95,
+        womenSafety: 9.2,
+        availability: 'red',
+        crowdLevel: 85,
+        verified: true,
+        rating: 4.7,
+        reviews: 25678,
+        bestValue: true,
+        aiRecommended: true
+      }
+    ];
+
+    function formatPrice(n) {
+      return '₹' + n.toLocaleString('en-IN');
+    }
+
+    function getScoreColor(score) {
+      if (score >= 8) return 'green';
+      if (score >= 6) return 'yellow';
+      return 'orange';
+    }
+
+    function getStars(rating) {
+      const full = Math.floor(rating);
+      const half = rating % 1 >= 0.5 ? 1 : 0;
+      return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+    }
+
+    function renderCard(item, showCompare = true) {
+      const comfortColor = getScoreColor(item.comfortScore);
+      return `
+        <div class="travel-card ${item.bestValue ? 'best-value' : ''} ${item.aiRecommended ? 'ai-recommended' : ''}" data-id="${item.id}">
+          ${showCompare ? `<div class="compare-check" data-id="${item.id}" role="button" aria-label="Add to comparison"></div>` : ''}
+          <div class="card-badges">
+            ${item.verified ? '<span class="badge badge-verified">✓ Verified Operator</span>' : ''}
+            <span class="badge badge-women-safety">🛡️ Women Safety ${item.womenSafety}/10</span>
+            ${item.bestValue ? '<span class="badge badge-best-value">Best Value</span>' : ''}
+          </div>
+          <div class="transport-type">${item.type}</div>
+          <div class="route-info">${item.source} <span class="route-arrow">→</span> ${item.destination}</div>
+          <div class="timing-grid">
+            <div class="timing-item">
+              <div class="timing-label">Depart</div>
+              <div class="timing-value">${item.departure}</div>
+            </div>
+            <div class="timing-item center">
+              <div class="timing-value">${item.duration}</div>
+              <div class="duration-badge">Duration</div>
+            </div>
+            <div class="timing-item">
+              <div class="timing-label">Arrive</div>
+              <div class="timing-value">${item.arrival}</div>
+            </div>
+          </div>
+          <div class="price-section">
+            <div class="base-fare">Base: ${formatPrice(item.baseFare)} + ${formatPrice(item.taxes)} taxes</div>
+            <div class="final-price">${formatPrice(item.finalPrice)}</div>
+            <button class="transparency-trigger" data-toggle-breakdown data-id="${item.id}" aria-expanded="false">
+              View Price Breakdown ↳
+            </button>
+            <div class="expandable-breakdown">
+              <div class="expandable-breakdown-inner">
+                <div><span>Base fare</span><span>${formatPrice(item.baseFare)}</span></div>
+                <div><span>Taxes & fees</span><span>${formatPrice(item.taxes)}</span></div>
+                <div><span>Hidden charges</span><span style="color: var(--green-600);">₹0 ✓</span></div>
+                <div><span>Final</span><span>${formatPrice(item.finalPrice)}</span></div>
+                <button class="transparency-trigger full-breakdown-link" data-id="${item.id}" style="margin-top: 8px; font-size: 0.75rem;">See full breakdown with market comparison →</button>
+              </div>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric">
+              <div class="metric-label">Comfort Score</div>
+              <div class="metric-value">
+                <div class="score-bar"><div class="score-fill ${comfortColor}" style="width: ${item.comfortScore * 10}%"></div></div>
+                <span class="metric-number">${item.comfortScore}/10</span>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Punctuality (AI)</div>
+              <div class="metric-value">
+                <div class="score-bar"><div class="score-fill ${getScoreColor(item.punctuality / 10)}" style="width: ${item.punctuality}%"></div></div>
+                <span class="metric-number">${item.punctuality}%</span>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Cleanliness</div>
+              <div class="metric-value">
+                <div class="score-bar"><div class="score-fill green" style="width: ${item.cleanliness * 10}%"></div></div>
+                <span class="metric-number">${item.cleanliness}</span>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Travel Confidence</div>
+              <div class="metric-value">
+                <div class="score-bar"><div class="score-fill green" style="width: ${item.confidenceIndex}%"></div></div>
+                <span class="metric-number">${item.confidenceIndex}%</span>
+              </div>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric">
+              <div class="metric-label">Seat Availability</div>
+              <div class="metric-value">
+                <span class="availability-dot ${item.availability}"></span>
+                <span>${item.availability === 'green' ? 'Available' : item.availability === 'yellow' ? 'Limited' : 'Few'}</span>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Crowd Level</div>
+              <div class="metric-value">
+                <div class="score-bar"><div class="score-fill ${item.crowdLevel > 70 ? 'orange' : item.crowdLevel > 40 ? 'yellow' : 'green'}" style="width: ${item.crowdLevel}%"></div></div>
+                <span class="metric-number">${item.crowdLevel}%</span>
+              </div>
+            </div>
+          </div>
+          <div class="rating-row">
+            <span class="rating-stars">${getStars(item.rating)}</span>
+            <span class="rating-text">${item.rating}</span>
+            <span class="rating-count">(${item.reviews.toLocaleString()} reviews)</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn-primary">Book Now</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('travelCards');
+      const aiOn = document.getElementById('aiRecommended').checked;
+      let items = [...travelData];
+      if (aiOn) items = items.filter(i => i.aiRecommended);
+      grid.innerHTML = items.map(i => renderCard(i)).join('');
+      attachCardListeners();
+    }
+
+    let selectedForCompare = [];
+
+    function attachCardListeners() {
+      document.querySelectorAll('.compare-check').forEach(el => {
+        el.addEventListener('click', () => {
+          const id = parseInt(el.dataset.id);
+          const idx = selectedForCompare.indexOf(id);
+          if (idx >= 0) {
+            selectedForCompare.splice(idx, 1);
+          } else if (selectedForCompare.length < 3) {
+            selectedForCompare.push(id);
+          }
+          updateCompareUI();
+        });
+      });
+
+      document.querySelectorAll('.transparency-trigger').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          if (btn.classList.contains('full-breakdown-link')) {
+            e.stopPropagation();
+            const item = travelData.find(i => i.id === parseInt(btn.dataset.id));
+            if (item) openTransparencyModal(item);
+            return;
+          }
+          if (btn.hasAttribute('data-toggle-breakdown')) {
+            const card = btn.closest('.travel-card');
+            const breakdown = card.querySelector('.expandable-breakdown');
+            const isOpen = breakdown.classList.toggle('open');
+            btn.setAttribute('aria-expanded', isOpen);
+            btn.textContent = isOpen ? 'Hide Breakdown ▲' : 'View Price Breakdown ↳';
+          }
+        });
+      });
+    }
+
+    function updateCompareUI() {
+      document.querySelectorAll('.compare-check').forEach(el => {
+        el.classList.toggle('selected', selectedForCompare.includes(parseInt(el.dataset.id)));
+      });
+      document.querySelectorAll('.comparison-slot').forEach((slot, i) => {
+        const id = selectedForCompare[i];
+        const item = id ? travelData.find(t => t.id === id) : null;
+        slot.textContent = item ? `${item.type} • ${formatPrice(item.finalPrice)}` : `Slot ${i + 1}`;
+        slot.classList.toggle('filled', !!item);
+      });
+      const view = document.getElementById('comparisonView');
+      const cards = document.getElementById('comparisonCards');
+      if (selectedForCompare.length >= 2) {
+        view.classList.add('active');
+        cards.innerHTML = selectedForCompare
+          .map(id => travelData.find(t => t.id === id))
+          .filter(Boolean)
+          .map(item => renderCard(item, false))
+          .join('');
+      } else {
+        view.classList.remove('active');
+      }
+    }
+
+    function openTransparencyModal(item) {
+      const marketAvg = Math.round(item.finalPrice * 1.12);
+      const diff = Math.round(((marketAvg - item.finalPrice) / marketAvg) * 100);
+      document.getElementById('modalBaseFare').textContent = formatPrice(item.baseFare);
+      document.getElementById('modalDynamic').textContent = '+' + formatPrice(Math.round(item.baseFare * 0.05));
+      document.getElementById('modalPlatform').textContent = formatPrice(49);
+      document.getElementById('modalCommission').textContent = formatPrice(item.taxes - 49);
+      document.getElementById('modalFinal').textContent = formatPrice(item.finalPrice);
+      document.querySelector('.market-comparison p').innerHTML = 
+        `📊 <strong>Market Comparison:</strong> This price is <strong>${diff}% below</strong> the average market rate of ${formatPrice(marketAvg)} for similar routes.`;
+      document.getElementById('transparencyModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('transparencyModal').classList.remove('active');
+    }
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('transparencyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'transparencyModal') closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
     });
 
-    // Payment tabs
-    document.querySelectorAll('.payment-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.payment-content').forEach(c => c.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('content-' + tab.dataset.tab).classList.add('active');
+    document.getElementById('budget').addEventListener('input', (e) => {
+      document.getElementById('budgetValue').textContent = formatPrice(parseInt(e.target.value));
+    });
+
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
     });
 
-    // UPI verify
-    const upiInput = document.getElementById('upiInput');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const verifiedMsg = document.getElementById('verifiedMsg');
-    verifyBtn.addEventListener('click', () => {
-      const val = upiInput.value.trim();
-      if (val && val.includes('@')) {
-        upiInput.classList.add('verified');
-        verifiedMsg.classList.add('show');
-      }
-    });
-    upiInput.addEventListener('input', () => {
-      upiInput.classList.remove('verified');
-      verifiedMsg.classList.remove('show');
+    document.getElementById('aiRecommended').addEventListener('change', renderCards);
+    document.getElementById('clearCompare').addEventListener('click', () => {
+      selectedForCompare = [];
+      updateCompareUI();
     });
 
-    // QR Timer
-    let totalSeconds = 179;
-    const timerMins = document.getElementById('timerMins');
-    const timerSecs = document.getElementById('timerSecs');
-    const qrTimer = document.getElementById('qrTimer');
-    const regenerateBtn = document.getElementById('regenerateBtn');
-
-    function updateTimer() {
-      const m = Math.floor(totalSeconds / 60);
-      const s = totalSeconds % 60;
-      timerMins.textContent = String(m).padStart(2, '0');
-      timerSecs.textContent = String(s).padStart(2, '0');
-      qrTimer.classList.remove('warning', 'expiring');
-      if (totalSeconds < 60) qrTimer.classList.add('expiring');
-      else if (totalSeconds < 90) qrTimer.classList.add('warning');
-      if (totalSeconds <= 0) {
-        clearInterval(timerInterval);
-        return;
-      }
-      totalSeconds--;
-    }
-
-    let timerInterval = setInterval(updateTimer, 1000);
-    updateTimer();
-
-    regenerateBtn.addEventListener('click', () => {
-      totalSeconds = 179;
-      updateTimer();
-      if (!timerInterval) timerInterval = setInterval(updateTimer, 1000);
-    });
-
-    // Generate QR-like placeholder (finder squares + data pattern)
-    const qrPlaceholder = document.getElementById('qrPlaceholder');
-    const s = 17;
-    const fill = (r, c) => {
-      const finder = (x, y, ox, oy) => {
-        if (x < ox || x > ox + 6 || y < oy || y > oy + 6) return false;
-        return x <= ox + 2 || x >= ox + 4 || y <= oy + 2 || y >= oy + 4;
-      };
-      if (finder(r, c, 0, 0) || finder(r, c, 10, 0) || finder(r, c, 0, 10)) return true;
-      return (r * 11 + c * 7) % 4 !== 0 && (r + c) % 3 !== 1;
-    };
-    for (let i = 0; i < s * s; i++) {
-      const el = document.createElement('div');
-      el.className = 'qr-cell';
-      el.style.background = fill(Math.floor(i / s), i % s) ? 'var(--gray-900)' : 'transparent';
-      qrPlaceholder.appendChild(el);
-    }
-
-    // PNR preview animation (simulates generation)
-    const pnrPreview = document.querySelector('.pnr-preview');
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    setInterval(() => {
-      pnrPreview.textContent = Array.from({ length: 7 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    }, 1500);
+    renderCards();
+    updateCompareUI();
   </script>
+  <script>
+  document.addEventListener('click', function(e) {
+    // Check if the clicked element is the "Book Now" button
+    const btn = e.target.closest('.btn-primary');
+    if (btn && btn.innerText.includes('Book Now')) {
+      const card = btn.closest('.travel-card');
+      
+      // Extract data from the travel-card using the classes already in your HTML
+      const bookingData = {
+        transportType: card.querySelector('.transport-type')?.innerText || 'Travel',
+        route: card.querySelector('.route-info')?.innerText.trim() || 'Route info',
+        departure: card.querySelector('.timing-item:first-child .timing-value')?.innerText || '00:00',
+        arrival: card.querySelector('.timing-item:last-child .timing-value')?.innerText || '00:00',
+        duration: card.querySelector('.duration-badge')?.innerText || 'N/A',
+        baseFare: card.querySelector('.base-fare')?.innerText.replace('Base Fare: ', '') || '₹0',
+        finalPrice: card.querySelector('.final-price')?.innerText || '₹0',
+        // Calculate taxes from the data provided in the card
+        taxes: (parseInt(card.querySelector('.final-price')?.innerText.replace(/[^0-9]/g, '')) - 
+                parseInt(card.querySelector('.base-fare')?.innerText.replace(/[^0-9]/g, ''))) || 0
+      };
+
+      // Save to localStorage for the next page to read
+      localStorage.setItem('selectedBooking', JSON.stringify(bookingData));
+
+      // Redirect to the payment page
+      window.location.href = 'payment.html';
+    }
+  });
+</script>
 </body>
 </html>
