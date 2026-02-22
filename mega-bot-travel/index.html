@@ -453,7 +453,7 @@
     <!-- This is the only addition - everything else remains exactly the same -->
     <script>
         // --- OpenRouter AI Configuration ---
-        const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY; // Replace with your actual OpenRouter key
+       const OPENROUTER_API_KEY = window.OPENROUTER_API_KEY || ''; // Replace with your actual OpenRouter key
         const YOUR_SITE_URL = window.location.href;
         const YOUR_SITE_NAME = "Mega-Bot Travel";
 
