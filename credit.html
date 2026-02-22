@@ -603,6 +603,140 @@
       .desktop-pay { display: block !important; }
       .sticky-pay { display: none !important; }
     }
+
+    /* ----- SUCCESS POPUP MODAL ----- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 24px 28px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--green-50);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      border: 2px solid var(--green-200);
+    }
+
+    .modal-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--green-600);
+      stroke-width: 2;
+    }
+
+    .modal-card h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+
+    .modal-card p {
+      color: var(--gray-600);
+      font-size: 1rem;
+      margin-bottom: 24px;
+    }
+
+    .receipt-preview {
+      background: var(--soft-blue-50);
+      border-radius: var(--radius-sm);
+      padding: 20px 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--soft-blue-100);
+      font-size: 0.875rem;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: var(--gray-700);
+    }
+
+    .receipt-row.total {
+      border-top: 1px dashed var(--soft-blue-300);
+      margin-top: 8px;
+      padding-top: 12px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .pnr-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+      color: var(--green-600);
+      background: var(--white);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin: 16px 0 8px;
+      border: 1px solid var(--green-200);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      flex: 1 1 auto;
+      min-width: 140px;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn.download {
+      background: var(--soft-blue-500);
+      color: white;
+    }
+
+    .modal-btn.download:hover { background: var(--soft-blue-600); }
+
+    .modal-btn.close {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      color: var(--gray-700);
+    }
+
+    .modal-btn.close:hover { border-color: var(--gray-400); }
   </style>
 </head>
 <body>
@@ -760,13 +894,38 @@
 
     <!-- Desktop Pay Button -->
     <div class="desktop-pay">
-      <button class="btn-completed" style="width: 100%; padding: 18px;">Pay ₹2,169</button>
+      <button class="btn-completed pay-trigger" style="width: 100%; padding: 18px;">Pay ₹2,169</button>
     </div>
   </div>
 
   <!-- Mobile Sticky Pay Button -->
   <div class="sticky-pay">
-    <button class="pay-btn">Pay ₹2,169</button>
+    <button class="pay-btn pay-trigger">Pay ₹2,169</button>
+  </div>
+
+  <!-- SUCCESS POPUP MODAL (Receipt) -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>Your ticket is confirmed. Download receipt.</p>
+
+      <div class="receipt-preview">
+        <div class="receipt-row"><span>Mumbai CST → Pune Jn</span><span>24 Feb 2025</span></div>
+        <div class="receipt-row"><span>2 Passengers</span><span>Total: ₹2,169</span></div>
+        <div class="pnr-code" id="modalPnr">ABCD123</div>
+        <div class="receipt-row total"><span>Transaction ID</span><span>TXN<span id="modalTxn"></span></span></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn download" id="downloadReceipt">📥 Download PDF</button>
+        <button class="modal-btn close" id="closeModal">Close</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -857,9 +1016,56 @@
     // PNR preview animation (simulates generation)
     const pnrPreview = document.querySelector('.pnr-preview');
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    setInterval(() => {
+    let pnrInterval = setInterval(() => {
       pnrPreview.textContent = Array.from({ length: 7 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
     }, 1500);
+
+    // ---------- MODAL (Payment success popup) ----------
+    const modalOverlay = document.getElementById('successModal');
+    const modalPnr = document.getElementById('modalPnr');
+    const modalTxn = document.getElementById('modalTxn');
+    const closeModalBtn = document.getElementById('closeModal');
+    const downloadBtn = document.getElementById('downloadReceipt');
+
+    // Helper to show modal with random PNR/TXN
+    function showSuccessModal() {
+      // generate random PNR & transaction ID (same style as preview)
+      const randomPnr = Array.from({ length: 7 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+      const txnSuffix = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+      modalPnr.textContent = randomPnr;
+      modalTxn.textContent = txnSuffix;
+      modalOverlay.classList.add('active');
+      // Pause the background PNR animation while modal is open (optional)
+      // but we keep it running, no conflict.
+    }
+
+    // Attach to all "pay" buttons (desktop & mobile, also the 'completed payment' in UPI)
+    document.querySelectorAll('.pay-trigger, #completedBtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();  // prevent any unintended form stuff
+        showSuccessModal();
+      });
+    });
+
+    // Close modal
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+    }
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Download receipt simulation
+    downloadBtn.addEventListener('click', () => {
+      alert('📄 Receipt downloaded (simulated).\nYour ticket has been sent to your email.');
+      // optional: could trigger an actual download, but here we just notify.
+    });
+
+    // Cleanup timer on page navigation (optional)
+    window.addEventListener('beforeunload', () => {
+      if (pnrInterval) clearInterval(pnrInterval);
+    });
   </script>
 </body>
 </html>
