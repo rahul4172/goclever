@@ -451,120 +451,144 @@
 
     <!-- ================= OPENROUTER AI SCRIPT ================= -->
     <!-- This is the only addition - everything else remains exactly the same -->
-    <script>
-        // --- OpenRouter AI Configuration ---
-       const OPENROUTER_API_KEY = window.OPENROUTER_API_KEY || ''; // Replace with your actual OpenRouter key
-        const YOUR_SITE_URL = window.location.href;
-        const YOUR_SITE_NAME = "Mega-Bot Travel";
+    // --- OpenRouter AI Configuration ---
+const chatList = document.querySelector(".chat-list");
+const typingInput = document.querySelector(".typing-input");
+const sendButton = document.getElementById("send-message-button");
+const deleteChatButton = document.getElementById("delete-chat-button");
 
-        const chatList = document.querySelector(".chat-list");
-        const typingInput = document.querySelector(".typing-input");
-        const sendButton = document.getElementById("send-message-button");
-        const deleteChatButton = document.getElementById("delete-chat-button");
+// For testing - use a hardcoded key temporarily to verify everything works
+// IMPORTANT: Remove this after testing and use the env.js method
+const OPENROUTER_API_KEY = "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"; // Replace with your actual key
 
-        // Add message function
-        function addMessage(text, type) {
-            const div = document.createElement("div");
-            div.classList.add("message");
-            div.classList.add(type === "user" ? "user-msg" : "bot-msg");
-            div.innerText = text;
-            chatList.appendChild(div);
-            chatList.scrollTop = chatList.scrollHeight;
-        }
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.classList.add("message");
+    div.classList.add(type === "user" ? "user-msg" : "bot-msg");
+    div.innerText = text;
+    chatList.appendChild(div);
+    chatList.scrollTop = chatList.scrollHeight;
+}
 
-        // OpenRouter API call
-        async function getAIResponse(query) {
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                        "HTTP-Referer": YOUR_SITE_URL,
-                        "X-Title": YOUR_SITE_NAME,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "model": "openai/gpt-3.5-turbo", // You can change this model
-                        "messages": [
-                            {
-                                "role": "system",
-                                "content": "You are Mega-Bot, a helpful travel assistant. Provide concise, practical information about transportation options including trains, buses, flights, metro, taxis, and travel tips. Be friendly and helpful."
-                            },
-                            {
-                                "role": "user",
-                                "content": query
-                            }
-                        ],
-                        "temperature": 0.7,
-                        "max_tokens": 300
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.error) {
-                    console.error("OpenRouter Error:", data.error);
-                    return "Sorry, I'm having trouble connecting right now. Please try again later.";
-                }
-                
-                if (data.choices && data.choices[0]) {
-                    return data.choices[0].message.content;
-                } else {
-                    return "I couldn't generate a response. Please try asking differently.";
-                }
-                
-            } catch (error) {
-                console.error("Fetch Error:", error);
-                return "Network error. Please check your connection.";
-            }
-        }
-
-        // Send message handler
-        async function handleSendMessage() {
-            const text = typingInput.value.trim();
-            if (!text) return;
-
-            // Add user message
-            addMessage(text, "user");
-            typingInput.value = "";
-
-            // Show loading
-            const loading = document.createElement("div");
-            loading.className = "message bot-msg";
-            loading.innerText = "✈️ Finding travel options...";
-            chatList.appendChild(loading);
-
-            // Get AI response
-            const response = await getAIResponse(text);
-            
-            // Remove loading and add response
-            loading.remove();
-            addMessage(response, "bot");
-        }
-
-        // Event listeners
-        sendButton.addEventListener("click", handleSendMessage);
+// Simple test function first
+async function testAPI() {
+    try {
+        addMessage("Testing API connection...", "bot");
         
-        typingInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                handleSendMessage();
-            }
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                "HTTP-Referer": window.location.href,
+                "X-Title": "Mega-Bot Travel",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "model": "openai/gpt-3.5-turbo",
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "Say 'Hello, I'm working!' if you can read this."
+                    }
+                ],
+                "max_tokens": 50
+            })
         });
 
-        // Delete chat
-        deleteChatButton.addEventListener("click", () => {
-            chatList.innerHTML = "";
-            addMessage("Chat cleared. How can I help you with your travel plans?", "bot");
+        const data = await response.json();
+        console.log("API Response:", data);
+        
+        if (data.error) {
+            addMessage("API Error: " + JSON.stringify(data.error), "bot");
+        } else if (data.choices && data.choices[0]) {
+            addMessage("✅ Success! " + data.choices[0].message.content, "bot");
+        } else {
+            addMessage("Unexpected response: " + JSON.stringify(data), "bot");
+        }
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        addMessage("Connection Error: " + error.message, "bot");
+    }
+}
+
+// Call test on load
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        testAPI();
+    }, 2000);
+});
+
+// Send message handler
+async function handleSendMessage() {
+    const text = typingInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    typingInput.value = "";
+
+    const loading = document.createElement("div");
+    loading.className = "message bot-msg";
+    loading.innerText = "✈️ Finding travel options...";
+    chatList.appendChild(loading);
+
+    try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                "HTTP-Referer": window.location.href,
+                "X-Title": "Mega-Bot Travel",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "model": "openai/gpt-3.5-turbo",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are Mega-Bot, a helpful travel assistant. Provide concise, practical information about transportation."
+                    },
+                    {
+                        "role": "user",
+                        "content": text
+                    }
+                ],
+                "temperature": 0.7,
+                "max_tokens": 300
+            })
         });
 
-        // Welcome message
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                addMessage("👋 Hi! I'm Mega-Bot. Ask me about transportation options, routes, or travel tips!", "bot");
-            }, 1000);
-        });
-    </script>
+        const data = await response.json();
+        
+        loading.remove();
+        
+        if (data.error) {
+            addMessage("Error: " + (data.error.message || "Unknown error"), "bot");
+        } else if (data.choices && data.choices[0]) {
+            addMessage(data.choices[0].message.content, "bot");
+        } else {
+            addMessage("Sorry, I couldn't generate a response.", "bot");
+        }
+        
+    } catch (error) {
+        loading.remove();
+        addMessage("Network error: " + error.message, "bot");
+    }
+}
+
+// Event listeners
+sendButton.addEventListener("click", handleSendMessage);
+
+typingInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSendMessage();
+    }
+});
+
+deleteChatButton.addEventListener("click", () => {
+    chatList.innerHTML = "";
+    addMessage("Chat cleared. How can I help you?", "bot");
+});
 </body>
 
 </html>
